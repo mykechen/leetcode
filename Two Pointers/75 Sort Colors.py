@@ -1,11 +1,12 @@
+# Dutch National Flag: 3 pointers partition array into red(0), white(1), blue(2)
 class Solution(object):
     def sortColors(self, nums):
         """
         :type nums: List[int]
         :rtype: None Do not return anything, modify nums in-place instead.
         """
-        
-        # SOL 1: O(n) space complexity bc dict
+
+        # SOL 1: O(n) space — count frequencies then overwrite
         # freq = defaultdict(int)
 
         # for num in nums:
@@ -22,21 +23,19 @@ class Solution(object):
         #         nums[i] = 2
         #         freq[2] -= 1
 
-        # SOL 2: constant space complexity
-        red = 0
-        blue = len(nums) - 1
-        white = 0
+        # SOL 2: Dutch National Flag — O(1) space, single pass
+        red = 0  # boundary for 0s (red)
+        blue = len(nums) - 1  # boundary for 2s (blue)
+        white = 0  # current element being examined
 
         while white <= blue:
-            # if blue, swap
-            if nums[white] == 2:
+            if nums[white] == 2:  # blue — swap to end
                 nums[white], nums[blue] = nums[blue], nums[white]
                 blue -= 1
-            # if red, swap
-            elif nums[white] == 0:
+            elif nums[white] == 0:  # red — swap to front
                 nums[white], nums[red] = nums[red], nums[white]
                 red += 1
                 white += 1
-            elif nums[white] == 1:
+            elif nums[white] == 1:  # white — already in place
                 white += 1
             

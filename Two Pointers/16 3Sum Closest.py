@@ -1,7 +1,7 @@
+# Sort + fix one + two pointers: find triplet sum closest to target
 class Solution(object):
     def threeSumClosest(self, nums, target):
-        # sort so we can use two pointer approach
-        nums.sort()
+        nums.sort()  # sort to enable two pointer approach
         closest = float('inf')
 
         for i in range(len(nums) - 2):

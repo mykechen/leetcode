@@ -1,3 +1,4 @@
+# Dynamic sliding window: longest substring where (window size - most frequent char) <= k replacements
 class Solution(object):
     def characterReplacement(self, s, k):
         """
@@ -5,17 +6,18 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        
+
         left = 0
         max_len = 0
-        counts = defaultdict(int)
+        counts = defaultdict(int)  # frequency of each char in current window
 
         for right in range(len(s)):
             counts[s[right]] += 1
-            maxCounts = max(counts.values())
+            maxCounts = max(counts.values())  # count of most frequent char in window
             curLen = right - left + 1
 
-            if curLen - maxCounts > k: # dynamic window updates -> if curLen > k have to update
+            # if replacements needed > k, shrink window from left
+            if curLen - maxCounts > k:
                 counts[s[left]] -= 1
                 left += 1
 

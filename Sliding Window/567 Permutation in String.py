@@ -1,3 +1,4 @@
+# Fixed sliding window: slide a window of len(s1) over s2, compare char frequency maps
 class Solution(object):
     def checkInclusion(self, s1, s2):
         """
@@ -6,7 +7,7 @@ class Solution(object):
         :rtype: bool
         """
 
-        # # SOL 1: Slow w/ sorting + fixed sliding window
+        # # SOL 1: Slow — sort each window substring and compare
         # s1_sorted = sorted(s1)
         # s1_len = len(s1)
 
@@ -18,14 +19,15 @@ class Solution(object):
         #         return True
 
         # return False
-        
-        # SOL 2: Optimized
+
+        # SOL 2: Optimized — compare frequency counts instead of sorting
         if len(s1) > len(s2):
             return False
 
         s1_count = defaultdict(int)
         s2_count = defaultdict(int)
 
+        # build initial window of size len(s1)
         for i in range(len(s1)):
             s1_count[s1[i]] += 1
             s2_count[s2[i]] += 1
@@ -33,13 +35,14 @@ class Solution(object):
         if s1_count == s2_count:
             return True
 
+        # slide window: add right char, remove left char
         left = 0
         for right in range(len(s1), len(s2)):
             s2_count[s2[right]] += 1
             s2_count[s2[left]] -= 1
 
             if s2_count[s2[left]] == 0:
-                del s2_count[s2[left]]
+                del s2_count[s2[left]]  # clean up zero counts for accurate comparison
 
             left += 1
 
